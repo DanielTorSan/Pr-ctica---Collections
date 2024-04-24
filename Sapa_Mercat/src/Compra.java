@@ -1,8 +1,8 @@
+import java.io.PrintStream;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 
@@ -93,8 +93,6 @@ public class Compra {
 	public void addAliment() {
 		String nom, codi;
 		float preu;
-		Calendar datac = new GregorianCalendar();
-		String dateFormat = "dd/MM/yyyy";
 		
 		System.out.print("Nom producte:\t");
 		nom = sc.nextLine();
@@ -196,17 +194,19 @@ public class Compra {
 
 		for(Producte e: elec_uniq) {
 			freq = Collections.frequency(llista_elec, e);
-			System.out.println(e.getNom() + "\t\t" + freq + " | " + e.getPreu() + "\t" + e.getPreu() * freq + "€");
+			System.out.println(e.getNom() + "\t\t" + freq + " | " + e.getPreu() + "€\t" + e.getPreu() * freq + "€");
 			total += e.getPreu()*freq;
 		}
 
 		for(Producte t: textil_uniq) {
 			freq = Collections.frequency(llista_textil, t);
-			System.out.println(t.getNom() + "\t\t" + freq + " | " + t.getPreu() + "\t" + t.getPreu() * freq + "€");
+			System.out.println(t.getNom() + "\t\t" + freq + " | " + t.getPreu() + "€\t" + t.getPreu() * freq + "€");
 			total += t.getPreu()*freq;
 		}
+
 		System.out.println("-----------------------------");
-		System.out.format("Total: %.3f%n%n", total +"€");
+		//PrintStream format = System.out.format("Total: %.3f%n%n", total);
+		System.out.format("Total: %.3f%n%n", total);
 
 		//buidar llistes
 		llista_ali.clear();
@@ -239,10 +239,11 @@ public class Compra {
 		return list.get(0).getNom();
 	}
 
-	//mètode a realitzar per a la versió 2.1
+	/*mètode a realitzar per a la versió 2.1
 	public void compararPreus(){
 		Compra compra = new Compra();	
 	}
+	*/
 
 }
 
