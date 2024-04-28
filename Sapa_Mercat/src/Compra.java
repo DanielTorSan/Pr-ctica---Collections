@@ -29,9 +29,6 @@ public class Compra {
 	public static void main(String... args) throws FileNotFoundException {
 		int op,opP;
 		Compra compra = new Compra();
-		Scanner reader_logs = new Scanner(logs);
-		Scanner reader_updates = new Scanner(updates);
-		String linea = "";
 
 		System.out.println("BENVINNGUT AL " + Compra.NOM_SUPERMERCAT);
 		do {
@@ -120,10 +117,6 @@ public class Compra {
 		String nom, codi;
 		float preu;
 
-		//2.1- Controlarem la llargada dels productes que es volen introduir al Carret de
-		// la Compra, per a qualsevol dels 3 tipus de productes que es poden introduir
-		// al carret, la seva llargada màxima del nom serà de 15 caràcters.
-
 		System.out.print("Nom producte:\t");
 		nom = sc.nextLine();
 		if (nom.length() > 14){
@@ -176,7 +169,6 @@ public class Compra {
 		
 		llista_elec.add(new Electronica(preu,nom,codi,garantia));	
 	}
-	//Comprobar codi de barres
 	//Llistar les tres llistes
 	public void printCarret() {
 		Map<String,Integer> llista = new HashMap<>();
@@ -204,7 +196,7 @@ public class Compra {
 		}
 		llista.forEach((k,v)-> System.out.println(getNomProducte(k) + " -> " + (Integer) v));
 
-		//Recorregut del Map sense usar lambda expression
+		//Recorregut del Map sense usar lambda expression (normal)
 		/*for(Map.Entry entry : llista.entrySet()) {
 			System.out.println(getNomProducte((String) entry.getKey()) + "-" + entry.getValue());
 		}*/
@@ -252,7 +244,7 @@ public class Compra {
 		llista_elec.clear();
 		llista_textil.clear();
 	}
-
+	// Funcio per comprobar la data entrade per l'usuari
 	private LocalDate readDate() {
 		LocalDate d = null;
 		boolean dateOK = false;
@@ -277,6 +269,8 @@ public class Compra {
 		if(list.size()==0) list = llista_elec.stream().filter(o -> o.getCodibarres().equals(codib)).distinct().collect(Collectors.toList());
 		return list.get(0).getNom();
 	}
+
+	//Funcio per printar les excepcions als seus fitxers corresponents
 	public static void printarExcepcio(Throwable e, File ficher) throws FileNotFoundException {
 		PrintStream writer = new PrintStream(new FileOutputStream(ficher, true));
 		writer.println(e.getMessage());
@@ -290,7 +284,6 @@ public class Compra {
 			while (scanner.hasNextLine()) {
 				String linea = scanner.nextLine();
 				String[] parts = linea.split(", ");
-
 				String codiBarras = parts[0];
 				float nouPreu = Float.parseFloat(parts[1]);
 
@@ -312,12 +305,5 @@ public class Compra {
 			printarExcepcio(e, updates);
 		}
 	}
-
-	/*mètode a realitzar per a la versió 2.1
-	public void compararPreus(){
-		Compra compra = new Compra();	
-	}
-	*/
-
 }
 
