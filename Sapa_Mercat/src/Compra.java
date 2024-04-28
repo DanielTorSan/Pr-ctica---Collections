@@ -1,3 +1,6 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -14,15 +17,21 @@ public class Compra {
 	private List<Electronica> llista_elec;
 	private List<Textil> llista_textil;
 
+
+	static File logs = new File("src/logs/Exceptions.dat");
+	static File updates = new File("src/updates/UpdateTextilPrices.dat ");
 	public Compra() {
 		llista_ali = new ArrayList<Alimentacio>();
 		llista_elec = new ArrayList<Electronica>();
 		llista_textil = new ArrayList<Textil>();
 	}
 
-	public static void main(String... args) {
+	public static void main(String... args) throws FileNotFoundException {
 		int op,opP;
 		Compra compra = new Compra();
+		Scanner reader_logs = new Scanner(logs);
+		Scanner reader_updates = new Scanner(updates);
+		String linea = "";
 
 		System.out.println("BENVINNGUT AL " + Compra.NOM_SUPERMERCAT);
 		do {
@@ -34,21 +43,38 @@ public class Compra {
 						switch(opP) {
 							case 1:
 								System.out.println("Afegir aliment");
-								compra.addAliment();
+								try {
+									compra.addAliment();
+								} catch (Exception e) {
+									System.out.println(e.getMessage());
+									printarExcepcio(e, logs);
+								}
 								break;
 							case 2:
 								System.out.println("Afegir tèxtil");
-								compra.addTextil();
+								try {
+									compra.addTextil();
+								} catch (Exception e) {
+									System.out.println(e.getMessage());
+									printarExcepcio(e, logs);
+								}
 								break;
 							case 3:
 								System.out.println("Afegir electrònica");
-								compra.addElectronica();
+								try {
+									compra.addElectronica();
+								} catch (Exception e) {
+									System.out.println(e.getMessage());
+									printarExcepcio(e, logs);
+								}
 								break;
 							default: break;
 						}
 					}while(opP!=0);
 					break;
-				case 2: compra.passarCaixa(); break;
+				case 2:
+					compra.actualitzarPreusTextils(); //Metode per actualitzar els preus
+					compra.passarCaixa(); break;
 				case 3:
 					System.out.println("Carret");
 					compra.printCarret();
@@ -90,12 +116,19 @@ public class Compra {
 	}
 	
 	
-	public void addAliment() {
+	public void addAliment() throws Exception {
 		String nom, codi;
 		float preu;
-		
+
+		//2.1- Controlarem la llargada dels productes que es volen introduir al Carret de
+		// la Compra, per a qualsevol dels 3 tipus de productes que es poden introduir
+		// al carret, la seva llargada màxima del nom serà de 15 caràcters.
+
 		System.out.print("Nom producte:\t");
 		nom = sc.nextLine();
+		if (nom.length() > 14){
+			throw new Exception("El nom del producte no pot contindre mes de quinze caracters: " + nom);
+		}
 		System.out.print("preu:\t");
 		preu = Float.parseFloat(sc.nextLine());
 		System.out.print("Codi de barres:\t");
@@ -105,12 +138,15 @@ public class Compra {
 		llista_ali.add(new Alimentacio(preu,nom,codi,ld));
 	}
 	
-	public void addTextil() {
+	public void addTextil() throws Exception {
 		String nom, compo, codi;
 		float preu;
 		
 		System.out.print("Nom producte:\t");
 		nom = sc.nextLine();
+		if (nom.length() > 14){
+			throw new Exception("El nom del producte no pot contindre mes de quinze caracters: " + nom);
+		}
 		System.out.print("preu:\t");
 		preu = Float.parseFloat(sc.nextLine());
 		System.out.print("Composició:\t");
@@ -118,16 +154,19 @@ public class Compra {
 		System.out.print("Codi de barres:\t");
 		codi = sc.nextLine();
 		
-		llista_textil.add(new Textil(preu,nom,codi,compo));	
+		llista_textil.add(new Textil(preu,nom,codi,compo));
 	}
 	
-	public void addElectronica() {
+	public void addElectronica() throws Exception {
 		String nom,codi;
 		float preu;
 		int garantia;
 		
 		System.out.print("Nom producte:\t");
 		nom = sc.nextLine();
+		if (nom.length() > 14){
+			throw new Exception("El nom del producte no pot contindre mes de quinze caracters: " + nom);
+		}
 		System.out.print("preu:\t");
 		preu = Float.parseFloat(sc.nextLine());
 		System.out.print("Garantia (dies):\t");
@@ -137,7 +176,7 @@ public class Compra {
 		
 		llista_elec.add(new Electronica(preu,nom,codi,garantia));	
 	}
-	
+	//Comprobar codi de barres
 	//Llistar les tres llistes
 	public void printCarret() {
 		Map<String,Integer> llista = new HashMap<>();
@@ -171,7 +210,7 @@ public class Compra {
 		}*/
 
 	}
-	
+
 	public void passarCaixa() {
 		double total = 0;
 		Set<Alimentacio> ali_uniq = new HashSet<Alimentacio>(llista_ali);
@@ -237,6 +276,41 @@ public class Compra {
 		if(list.size()==0) list = llista_textil.stream().filter(o -> o.getCodibarres().equals(codib)).distinct().collect(Collectors.toList());
 		if(list.size()==0) list = llista_elec.stream().filter(o -> o.getCodibarres().equals(codib)).distinct().collect(Collectors.toList());
 		return list.get(0).getNom();
+	}
+	public static void printarExcepcio(Throwable e, File ficher) throws FileNotFoundException {
+		PrintStream writer = new PrintStream(new FileOutputStream(ficher, true));
+		writer.println(e.getMessage());
+		writer.close();
+	}
+	private void actualitzarPreusTextils() throws FileNotFoundException {
+		try {
+			File archivo = new File("src/updates/UpdateTextilPrices.dat");
+			Scanner scanner = new Scanner(archivo);
+
+			while (scanner.hasNextLine()) {
+				String linea = scanner.nextLine();
+				String[] parts = linea.split(", ");
+
+				String codiBarras = parts[0];
+				float nouPreu = Float.parseFloat(parts[1]);
+
+				// Busquem el producte en la llista y actualitzem el seu preu
+				for (Textil textil : llista_textil) {
+					if (textil.getCodibarres().equals(codiBarras)) {
+						textil.setPreu(nouPreu);
+						System.out.println("Preu actualitzat: " + codiBarras + ": " + nouPreu);
+						break;
+					}
+				}
+			}
+			scanner.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("No s'ha trobat el fitxer.");
+			printarExcepcio(e, updates);
+		} catch (NumberFormatException e) {
+			System.out.println("No s'aha pogut canviar el format del preu");
+			printarExcepcio(e, updates);
+		}
 	}
 
 	/*mètode a realitzar per a la versió 2.1
