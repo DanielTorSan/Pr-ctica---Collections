@@ -12,13 +12,9 @@ public class Textil extends Producte {
 		return composicio;
 	}
 
-	public void setComposicio(String composicio) {
-		this.composicio = composicio;
-	}
-
 	@Override
 	public String toString() {
-		return new String(getNom() + " " + getPreu());
+		return getNom()  + "" + getCode() + "" + getComposicio() + " " + getPreu();
 	}
 
 	public String getCode (){

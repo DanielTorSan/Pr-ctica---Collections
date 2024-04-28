@@ -1251,6 +1251,7 @@
 											"model": {
 												"$ref": "AAAAAAGO5mxdeaUg5Kw="
 											},
+											"visible": false,
 											"font": "Arial;13;0",
 											"left": 597,
 											"top": 215,
@@ -1270,7 +1271,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 597,
-											"top": 230,
+											"top": 215,
 											"width": 282.88330078125,
 											"height": 13,
 											"text": "+getCodibarres(): text",
@@ -1285,9 +1286,10 @@
 											"model": {
 												"$ref": "AAAAAAGO5mzF4qUwyqY="
 											},
+											"visible": false,
 											"font": "Arial;13;0",
 											"left": 597,
-											"top": 245,
+											"top": 230,
 											"width": 282.88330078125,
 											"height": 13,
 											"text": "+setCodibarres(codibarres: text)",
@@ -1304,7 +1306,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 597,
-											"top": 260,
+											"top": 230,
 											"width": 282.88330078125,
 											"height": 13,
 											"text": "+equals(obj: Object): boolean",
@@ -1321,7 +1323,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 597,
-											"top": 275,
+											"top": 245,
 											"width": 282.88330078125,
 											"height": 13,
 											"text": "+hashCode(): int",
@@ -1332,7 +1334,7 @@
 									"left": 592,
 									"top": 150,
 									"width": 292.88330078125,
-									"height": 143
+									"height": 113
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -1372,7 +1374,7 @@
 							"left": 592,
 							"top": 72,
 							"width": 292.88330078125,
-							"height": 221,
+							"height": 201,
 							"nameCompartment": {
 								"$ref": "AAAAAAGO5meNy6SLxQA="
 							},
@@ -1584,6 +1586,7 @@
 											"model": {
 												"$ref": "AAAAAAGO5nQacaWFemA="
 											},
+											"visible": false,
 											"font": "Arial;13;0",
 											"left": 61,
 											"top": 418,
@@ -1603,7 +1606,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 61,
-											"top": 433,
+											"top": 418,
 											"width": 420.14501953125,
 											"height": 13,
 											"text": "+toString(): text",
@@ -1620,7 +1623,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 61,
-											"top": 448,
+											"top": 433,
 											"width": 420.14501953125,
 											"height": 13,
 											"text": "+getCode(): text",
@@ -1631,7 +1634,7 @@
 									"left": 56,
 									"top": 383,
 									"width": 430.14501953125,
-									"height": 83
+									"height": 68
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -1671,7 +1674,7 @@
 							"left": 56,
 							"top": 320,
 							"width": 430.14501953125,
-							"height": 146,
+							"height": 131,
 							"nameCompartment": {
 								"$ref": "AAAAAAGO5meuq6S1xK4="
 							},

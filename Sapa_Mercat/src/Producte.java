@@ -8,8 +8,6 @@ public abstract class Producte {
 		this.nom = nom;
 		codibarres = codi;
 	}
-
-
 	public float getPreu() {
 		return preu;
 	}
@@ -20,14 +18,8 @@ public abstract class Producte {
 	public String getNom() {
 		return nom;
 	}
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
 	public String getCodibarres() {
 		return codibarres;
-	}
-	public void setCodibarres(String codibarres) {
-		this.codibarres = codibarres;
 	}
 
 	@Override

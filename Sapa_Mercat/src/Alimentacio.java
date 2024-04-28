@@ -17,14 +17,13 @@ public class Alimentacio extends Producte {
 		long dif;
 		dif = ChronoUnit.DAYS.between(d,LocalDate.now());
 		preu = preu - (float) (preu*(1/(dif+1)) + (preu*(0.1)));
-		//System.out.println("preu:" + preu);
 		return preu;
 	}
 
 
 	@Override
 	public String toString() {
-		return new String(getNom() + " " + getPreu());
+		return getNom() + " " + getPreu();
 	}
 	
 
